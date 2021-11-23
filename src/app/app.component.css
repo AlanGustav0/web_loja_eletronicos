@@ -1,0 +1,31 @@
+.toolbar {
+  position        : relative;
+  top             : 0;
+  left            : 0;
+  right           : 0;
+  height          : 60px;
+  display         : flex;
+  align-items     : center;
+  background-color: #1976d2;
+  color           : white;
+  font-weight     : 600;
+}
+
+.toolbar img {
+  margin: 0 16px;
+}
+
+.principal {
+  margin-top: 30px;
+}
+
+
+
+.principal__tabela{
+  margin-top: 40px;
+
+}
+
+.btn {
+  margin-right: 10px;
+}
