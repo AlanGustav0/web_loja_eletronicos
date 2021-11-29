@@ -2,56 +2,104 @@
   <div class="container">
     <div class="row">
       <div class="col mt-2">
-        <img width="40" alt="Angular Logo"
-          src="https://cdn-icons.flaticon.com/png/512/3451/premium/3451761.png?token=exp=1637667834~hmac=613fd2a61bb9090f445eefba0c011ec5" />
+        <img
+          width="40"
+          alt="Angular Logo"
+          src="https://cdn-icons.flaticon.com/png/512/3451/premium/3451761.png?token=exp=1637667834~hmac=613fd2a61bb9090f445eefba0c011ec5"
+        />
       </div>
       <div class="col-8">
         <h1>Controle de Estoque</h1>
       </div>
     </div>
-
   </div>
-
 </div>
 
 <main>
-
   <section class="container principal">
     <div class="row">
       <div class="col">
         <img
           src="https://image.freepik.com/vetores-gratis/composicao-isometrica-de-entrega-logistica-de-entrega-com-caracteres-humanos-sem-rosto-de-dois-trabalhadores-do-sexo-masculino-e-ilustracao-de-rack-de-encomendas_1284-29116.jpg"
-          alt="Estoque">
+          alt="Estoque"
+        />
       </div>
       <div class="col">
-        <form>
+        <form [formGroup]="checkoutForm" id="produtosForm">
           <div class="mb-3">
-            <label for="nome" class="form-label">Nome Produto</label>
-            <input type="text" class="form-control" id="nome">
+            <label for="nome" class="form-label" >Nome Produto</label>
+            <input
+              type="text"
+              formControlName="nome"
+              class="form-control"
+              id="nome"
+              placeholder="Digite seu nome"
+            />
           </div>
 
           <div class="mb-3">
             <label for="preco" class="form-label">Valor do Produto</label>
-            <input type="text" class="form-control" id="preco">
+            <input
+              type="text"
+              formControlName="preco"
+              class="form-control"
+              id="preco"
+              placeholder="Digite o valor"
+            />
           </div>
 
           <div class="mb-3">
             <label for="data" class="form-label">Data de entrada</label>
-            <input type="date" class="form-control" id="data">
+            <input
+              type="date"
+              formControlName="data"
+              class="form-control"
+              id="data"
+              
+            />
           </div>
 
           <div class="mb-3">
             <label for="quantidade" class="form-label">Quantidade</label>
-            <input type="text" class="form-control" id="quantidade">
+            <input
+              type="text"
+              formControlName="quantidade"
+              class="form-control"
+              id="quantidade"
+              placeholder="Digite a quantidade"
+            />
           </div>
           <div class="mb-3">
             <label for="descricao" class="form-label">Descrição</label>
-            <textarea type="message" class="form-control" id="descricao"></textarea>
+            <textarea
+              type="message"
+              formControlName="descricao"
+              class="form-control"
+              id="descricao"
+            ></textarea>
           </div>
-          <button type="submit" class="btn btn-success ">Cadastrar</button>
-          <button type="submit" class="btn btn-primary ">Atualizar</button>
-          <button type="submit" class="btn btn-secondary ">Buscar</button>
-          <button type="submit" class="btn btn-danger ">Excluir</button>
+          <div class="mb-3 row">
+            <label for="descricao" class="form-label">Código do Produto</label>
+            <input
+              type="text"
+              formControlName="codigo"
+              class="form-control col"
+              id="codigo"
+              placeholder="Pesquisar..."
+            />
+            <button type="submit" class="btn btn-secondary col-2" (click)="buscar()">
+              Buscar
+            </button>
+          </div>
+          <button type="submit" class="btn btn-success" (click)="cadastrar()">
+            Cadastrar
+          </button>
+          <button type="submit" class="btn btn-primary" (click)="atualizar()">
+            Atualizar
+          </button>
+          <button type="submit" class="btn btn-danger" (click)="deletar()">
+            Excluir
+          </button>
         </form>
       </div>
     </div>
@@ -67,13 +115,26 @@
           <th scope="col">Quantidade</th>
           <th scope="col">Descrição</th>
           <th scope="col">Código do Produto</th>
-          <th scope="col"><button class="btn btn-dark">Listar Produtos</button></th>
+          <th scope="col">
+            <button class="btn btn-dark" (click)="listarProdutos()">Listar Produtos</button>
+          </th>
         </tr>
       </thead>
-      <tbody>
-
+      <tbody *ngIf="listaProduto; else mensagemProdutos">
+        <tr *ngFor="let produto of produtos">
+          <td>{{ produto.nome }}</td>
+          <td>{{ produto.preco }}</td>
+          <td>{{ produto.data }}</td>
+          <td>{{ produto.quantidade }}</td>
+          <td>{{ produto.descricao }}</td>
+          <td>{{ produto.codigo }}</td>
+        </tr>
       </tbody>
-      <tfoot></tfoot>
+      <tfoot>
+        <ng-template #mensagemProdutos>
+          Nenhum Produto Listado
+        </ng-template>
+      </tfoot>
     </table>
   </section>
 </main>
