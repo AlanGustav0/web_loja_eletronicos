@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient} from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 const API = 'http://localhost:8080'
 
@@ -11,37 +11,39 @@ export class EstoqueServices{
 
     cadastrar(dados: any){
         const produto = this.converteJson(dados);
-
-        return this.http.post(API + '/produto/cadastro',produto);
+        return this.http.post(API + '/produto', produto);
     }
 
     atualizar(dados:any){
         const produto = this.converteJson(dados);
-        return this.http.put(API + '/produto/atualizar',produto);
+        console.log(dados.data);
+        const params = new HttpParams();
+       // params.append('codigoProduto', produto);
+        return this.http.put(API + '/produto?codigoProduto=',produto,{params});
 
     }
 
     buscar(codigo:any){
-        return this.http.get(API + '/produto/buscar',codigo);
+        return this.http.get(API + '/produto/codigoProduto',codigo);
         
     }
 
     deletar(codigo:any){
-        return this.http.delete(API + '/produto/delete',codigo);
+        return this.http.delete(API + '/produto/?codigoProduto=' + codigo);
     }
 
     listaProdutos(){
-        return this.http.get(API + '/produtos/listaProdutos');
+        return this.http.get(API + '/produto');
     }
 
     converteJson(dados:any){
         const produto = {
             nome: dados.nome,
-            preco: dados.preco,
-            data: dados.data.replace('/','-').reverse(),
-            quantidade: dados.quantidade,
+            preco: Number(dados.preco),
+            dataEntrada: dados.data,
+            quantidade: Number(dados.quantidade),
             descricao: dados.descricao
         }
-        return JSON.stringify(produto);
+        return produto;
     }
 }
