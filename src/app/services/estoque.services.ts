@@ -19,7 +19,7 @@ export class EstoqueServices {
     atualizar(dados: any) {
         const produto = this.converteJson(dados);
         const params = new HttpParams();
-        return this.http.put(API + '/produto?codigoProduto=' + dados.codigo, produto );
+        return this.http.put(API + '/produto?codigoProduto=' + dados.codigo, produto);
 
     }
 
@@ -51,10 +51,14 @@ export class EstoqueServices {
         const relatorio = new jsPDF();
         let espacoLinha = 20;
         let posicaoElemento = 33;
+        let dataRelatorio = this.geraData();
+        let contaPaginas = 0;
 
+        relatorio.setFontSize(10);
+        relatorio.text("Relatório gerado em: " + dataRelatorio, 131, 15);
         relatorio.setFont("Arial");
         relatorio.setFontSize(16);
-        relatorio.text("Relação de Produtos em Estoque", 70, 15);
+        relatorio.text("Relação de Produtos em Estoque", 10, 15);
         relatorio.rect(10, espacoLinha, 185, 1, "FD");
         this.listaProdutos().subscribe((produto) => {
             produtos = produto;
@@ -71,12 +75,29 @@ export class EstoqueServices {
             posicaoElemento += 5;
             relatorio.text("Descrição: " + produtos[index].descricao, 12, posicaoElemento);
             posicaoElemento += 5;
-            relatorio.text("Códig: " + produtos[index].codigoProduto, 12, posicaoElemento);
+            relatorio.text("Código: " + produtos[index].codigoProduto, 12, posicaoElemento);
             posicaoElemento += 20;
             espacoLinha += 45;
             relatorio.rect(10, espacoLinha, 180, 0.2, "FD");
+
+            contaPaginas++;
+
+            if (contaPaginas === 6) {
+                relatorio.addPage();
+                espacoLinha = 20;
+                posicaoElemento = 33;
+                contaPaginas = 0;
+            }
         }
 
         relatorio.output("dataurlnewwindow");
+    }
+
+    geraData() {
+        let data = new Date();
+        let horas = data.getHours() + ":" + data.getMinutes();
+        let dataRelatorio = data.getDate() + "/" + (Number(data.getMonth()) + 1) + "/" + data.getFullYear() + " às " + horas;
+
+        return dataRelatorio;
     }
 }

@@ -85,9 +85,8 @@
               formControlName="codigo"
               class="form-control col"
               id="codigo"
-              placeholder="Pesquisar..."
             />
-            <button type="submit" class="btn btn-secondary col-2" (click)="buscar()">
+            <button hidden type="submit" class="btn btn-secondary col-2" (click)="buscar()">
               Buscar
             </button>
           </div>
@@ -130,8 +129,10 @@
           <td>{{ produto.codigoProduto }}</td>
           <td><button type="submit" class="btn btn-danger" (click)="deletar(produto.codigoProduto)">
             Excluir
-          </button></td>
-          <td><button type="submit" class="btn btn-warning" (click)="editar(produto.nome,produto.preco,produto.dataEntrada,produto.quantidade,produto.descricao,produto.codigoProduto)">
+          </button>
+          </td>
+          <td>
+          <button type="submit" class="btn btn-warning" (click)="editar(produto.nome,produto.preco,produto.dataEntrada,produto.quantidade,produto.descricao,produto.codigoProduto)">
             Editar
           </button></td>
         </tr>

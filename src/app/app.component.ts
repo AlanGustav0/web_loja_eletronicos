@@ -13,14 +13,6 @@ export class AppComponent implements OnInit {
   @Input() produtos!: any;
   public listaProduto: boolean = false;
 
-  public produto = {
-    nome: 'Nome Produto',
-    preco: 10,
-    dataEntrada: '21/11/2021',
-    quantidade: 50,
-    descricao: 'Produtos diversos',
-    codigo: 3
-  }
   public checkoutForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private estoqueServices: EstoqueServices) { }
@@ -63,15 +55,15 @@ export class AppComponent implements OnInit {
 
   }
 
-  editar(nome:string,preco:number,dataEntrada:string,quantidade:number,descricao:string,codigoProduto:string){
+  editar(nome: string, preco: number, dataEntrada: string, quantidade: number, descricao: string, codigoProduto: string) {
     this.checkoutForm.patchValue({
-          nome: nome,
-          preco: preco,
-          data: dataEntrada,
-          quantidade: quantidade,
-          descricao: descricao,
-          codigo: codigoProduto
-        });
+      nome: nome,
+      preco: preco,
+      data: dataEntrada,
+      quantidade: quantidade,
+      descricao: descricao,
+      codigo: codigoProduto
+    });
   }
 
   buscar() {
@@ -86,16 +78,6 @@ export class AppComponent implements OnInit {
     //     codigo: this.produto.codigo
     //   });
     // });
-
-    this.checkoutForm.patchValue({
-      nome: this.produto.nome,
-      preco: this.produto.preco,
-      dataEntrada: this.produto.dataEntrada,
-      quantidade: this.produto.quantidade,
-      descricao: this.produto.descricao,
-      codigo: this.produto.codigo
-    });
-
   }
 
   listarProdutos() {
@@ -108,9 +90,9 @@ export class AppComponent implements OnInit {
   geraRelatorio() {
     if (this.listaProduto) {
       this.estoqueServices.geraRelatorio(this.produtos);
-    }else{
+    } else {
       alert('Nenhum produto na lista');
     }
-    
+
   }
 }
