@@ -116,7 +116,7 @@
             <button class="btn btn-dark" (click)="listarProdutos()">Listar Produtos</button>
           </th>
           <th scope="col">
-            <button class="btn btn-dark" (click)="geraRelatorio()">Relatório</button>
+            <button class="btn btn-info" (click)="geraRelatorio()">Gerar Relatório</button>
           </th>
         </tr>
       </thead>
@@ -130,6 +130,9 @@
           <td>{{ produto.codigoProduto }}</td>
           <td><button type="submit" class="btn btn-danger" (click)="deletar(produto.codigoProduto)">
             Excluir
+          </button></td>
+          <td><button type="submit" class="btn btn-warning" (click)="editar(produto.nome,produto.preco,produto.dataEntrada,produto.quantidade,produto.descricao,produto.codigoProduto)">
+            Editar
           </button></td>
         </tr>
       </tbody>

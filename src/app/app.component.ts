@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EstoqueServices } from './services/estoque.services';
-import { jsPDF } from "jspdf";
+
 
 @Component({
   selector: 'app-root',
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
       data: [''],
       quantidade: [''],
       descricao: [''],
-      codigo:['']
+      codigo: ['']
     });
   }
 
@@ -41,6 +41,7 @@ export class AppComponent implements OnInit {
     const dados = this.checkoutForm.getRawValue();
     this.estoqueServices.cadastrar(dados).subscribe(() => {
       alert('Produto Cadastrado com sucesso!');
+      this.checkoutForm.reset();
     });
   }
 
@@ -48,14 +49,29 @@ export class AppComponent implements OnInit {
     const dados = this.checkoutForm.getRawValue();
     this.estoqueServices.atualizar(dados).subscribe(() => {
       alert('Produto atualizado com sucesso!');
+      location.reload();
     });
   }
 
-  deletar(codigoProduto:any) {
-    console.log(codigoProduto);
-    this.estoqueServices.deletar(codigoProduto).subscribe(() => {
+  deletar(codigoProduto: any) {
+    console.log('1º' + codigoProduto);
+    this.estoqueServices.deletar(codigoProduto).subscribe((retorno) => {
+      console.log('3º' + retorno);
       alert('Produto deletado com sucesso!');
+      location.reload();
     });
+
+  }
+
+  editar(nome:string,preco:number,dataEntrada:string,quantidade:number,descricao:string,codigoProduto:string){
+    this.checkoutForm.patchValue({
+          nome: nome,
+          preco: preco,
+          data: dataEntrada,
+          quantidade: quantidade,
+          descricao: descricao,
+          codigo: codigoProduto
+        });
   }
 
   buscar() {
@@ -83,25 +99,18 @@ export class AppComponent implements OnInit {
   }
 
   listarProdutos() {
-    this.estoqueServices.listaProdutos().subscribe((produtos) =>{
-      this.listaProduto = true;
+    this.estoqueServices.listaProdutos().subscribe((produtos) => {
       this.produtos = produtos;
+      this.listaProduto = true;
     });
   }
 
-  geraRelatorio(){
-    const relatorio = new jsPDF();
-    relatorio.setFont("Arial").getStyle("bold");
-    relatorio.setFontSize(16);
-    relatorio.text("Relação de Produtos em Estoque",65,15);
-    this.estoqueServices.listaProdutos().subscribe((produtos) =>{
-      this.produtos = produtos;
-    });
-    relatorio.setFontSize(12);
-    for(let index = 0;index<this.produtos.length;index++){
-      relatorio.text(this.produtos[index].nome,12,33);
+  geraRelatorio() {
+    if (this.listaProduto) {
+      this.estoqueServices.geraRelatorio(this.produtos);
+    }else{
+      alert('Nenhum produto na lista');
     }
-
-    relatorio.output("dataurlnewwindow");
+    
   }
 }
