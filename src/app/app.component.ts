@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
       descricao: [''],
       codigo: ['']
     });
+
+    this.checkoutForm.get('codigo')?.disable();
   }
 
   cadastrar() {
